@@ -1,0 +1,7 @@
+.dashboard-item-wrapper {
+    max-width: 30vw;
+    max-height: 30vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
