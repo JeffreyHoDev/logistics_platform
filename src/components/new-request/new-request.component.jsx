@@ -1,64 +1,74 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-
 import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
+
+import { NewRequestDataTableComponent } from '../datatable/new-request-datatable.component'
+import { NewRequestItemCardComponent } from '../new-request-item-card/new-request-item-card.component'
+import styled from 'styled-components';
+
+import { useState } from 'react'
+import { useSelector } from 'react-redux';
+
+const NewRequestInformationContainer = styled.div`
+    display: flex;
+    justify-content: space-evenly;
+`
+
+const NewRequestInputsContainer = styled.div`
+    min-width: 60vw;
+`
+
 
 export const NewRequestComponent = ({ handleShow, handleClose, showAddRequest }) => {
+
+    const { request_item_list } = useSelector((state) => state.newRequestReducer)
+
+    const [ project, setProject ] = useState("")
+    const [ remark, setRemark ] = useState("")
+    const [ requiredDate, setRequiredDate ] = useState("")
+
     return (
         <div className="new-request-container">
             <Modal
-                style={{ display: 'block', position: 'block' }}
+                style={{ display: 'block', position: 'block', width: '100vw' }}
                 show={showAddRequest}
                 onHide={handleClose}
+                fullscreen
             >
                 <Modal.Header closeButton>
                     <Modal.Title>New Request</Modal.Title>
                 </Modal.Header>
-                <Modal.Dialog>
                     <Modal.Body>
-                        <InputGroup className="mb-3">
-                            <InputGroup.Text id="asset-name">Asset Name</InputGroup.Text>
-                            <Form.Control
-                                placeholder="Asset Name"
-                                aria-label="Asset Name"
-                                aria-describedby="asset-name"
-                            />
-                        </InputGroup>
-                        <InputGroup className="mb-3">
-                            <InputGroup.Text id="code-name">Code Name</InputGroup.Text>
-                            <Form.Control
-                                placeholder="Code Name"
-                                aria-label="Code Name"
-                                aria-describedby="code-name"
-                            />
-                        </InputGroup>
-                        <InputGroup className="mb-3">
-                            <InputGroup.Text id="asset-quantity">Asset Quantity</InputGroup.Text>
-                            <Form.Control
-                                placeholder="Asset Quantity"
-                                aria-label="Asset Quantity"
-                                aria-describedby="asset-quantity"
-                                type="number"
-                            />
-                        </InputGroup>
-                        <InputGroup className="mb-3">
-                            <InputGroup.Text id="asset-remark">Remark</InputGroup.Text>
-                            <Form.Control
-                                placeholder="Remark"
-                                aria-label="Asset Quantity"
-                                aria-describedby="asset-remark"
-                                as="textarea"
-                                rows="5"
-                            />
-                        </InputGroup>
+                        <NewRequestInformationContainer>
+                            <NewRequestInputsContainer>
+                                <NewRequestDataTableComponent />
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Project Name</Form.Label>
+                                    <Form.Control value={project} onChange={(e) => setProject(e.target.value)} type="text" placeholder="Enter project name" />
+                                </Form.Group>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Required Date</Form.Label>
+                                    <Form.Control value={requiredDate} onChange={(e) => setRequiredDate(e.target.value)} type="date"/>
+                                </Form.Group>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Remark</Form.Label>
+                                    <Form.Control value={remark} onChange={(e) => setRemark(e.target.value)} as="textarea"/>
+                                </Form.Group>
+                            </NewRequestInputsContainer>
+                            <div className='new-request-items-summary'>
+                                <h2>Request Summary</h2>
+                                {
+                                    request_item_list.map((item) => {
+                                        return <NewRequestItemCardComponent key={`request-item-${item.id}`} item={item}/>
+                                    })
+                                }
+                            </div>
+                        </NewRequestInformationContainer>
                     </Modal.Body>
 
                     <Modal.Footer>
-                    <Button variant="outline-danger" onClick={handleClose}>Close</Button>
-                    <Button variant="outline-success">Add</Button>
+                        <Button variant="outline-success">Submit New Request</Button>
                     </Modal.Footer>
-                </Modal.Dialog>
             </Modal>
         </div>
     )

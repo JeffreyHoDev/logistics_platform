@@ -12,8 +12,6 @@ const ButtonGroups = ({ rowProps }) => {
     const ButtonGroupsContainer = styled.div`
         display: flex;
         justify-content: space-evenly;
-        align-items: center;
-        flex-wrap: wrap;
     `
 
     const CustomizedButton = styled(Button)`
@@ -24,7 +22,6 @@ const ButtonGroups = ({ rowProps }) => {
         <ButtonGroupsContainer>
             <CustomizedButton variant='outline-primary' onClick={() => setShowReview(true)}>Review</CustomizedButton>
             <RequestReviewComponent showReview={showReview} handleClose={handleClose} item={rowProps}/>
-            <CustomizedButton variant='outline-success'>Delivered</CustomizedButton>
         </ButtonGroupsContainer>
     )
 }
@@ -54,12 +51,6 @@ const columns = [
         name: 'Required Date',
         selector: row => row.required_date,
         sortable: true
-    },
-    {
-        name: 'Remark',
-        selector: row => row.remark,
-        grow: 2,
-        wrap: true
     },
     {
         name: 'Status',
@@ -92,8 +83,7 @@ const columns = [
     },
     {
         name: 'Action',
-        cell: props => <ButtonGroups rowProps={props}/>,
-        grow: 2,
+        cell: props => <ButtonGroups rowProps={props}/>
     },
 ];
 
@@ -116,7 +106,7 @@ const data = [
         item_list: [{asset_name: "Item A", quantity: 20},{asset_name: "Item B", quantity: 20}],
         project_name: "Project Y",
         remark: "The project sponsored by super great giant company",
-        status: "Approve"
+        status: "Rejected"
     },
     {
         id: 3,
@@ -136,12 +126,12 @@ const data = [
         item_list: [{asset_name: "Item A", quantity: 20},{asset_name: "Item B", quantity: 20}],
         project_name: "Project X",
         remark: "The project sponsored by super great giant company",
-        status: "Pending"
+        status: "Delivered"
     },
 
 ]
 
-export const RequestDataTableComponent = () => {
+export const HistoryDataTableComponent = () => {
     return (
         <DataTable
             columns={columns}

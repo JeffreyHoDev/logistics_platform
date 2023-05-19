@@ -3,11 +3,16 @@ import { DashboardPage } from './pages/dashboard/dashboard.page';
 import { NavBar } from './components/navbar/navbar.component'
 import { AssetsManagementPage } from './pages/assets/assets.page';
 import { RequestManagementPage } from './pages/requests-management/request-management.page'
+import { HistoryPage } from './pages/history/history.page'
+import { UserManagementPage } from './pages/users-management/users-management.page'
 
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+
+import store from './redux/store'
+import { Provider } from 'react-redux'
 
 const router = createBrowserRouter([
   {
@@ -26,6 +31,14 @@ const router = createBrowserRouter([
         path: "/request-management",
         element: <RequestManagementPage />
       },
+      {
+        path: "/history",
+        element: <HistoryPage />
+      },
+      {
+        path: "/user-management",
+        element: <UserManagementPage />
+      },
     ]
   }
 ]);
@@ -33,7 +46,9 @@ const router = createBrowserRouter([
 const App = () => {
   return (
     <div className="App">
-      <RouterProvider router={router} />
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
     </div>
   );
 }
